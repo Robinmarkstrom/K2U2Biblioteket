@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Biblioteket.LibraryClient.Core
 {
@@ -13,8 +14,9 @@ namespace Biblioteket.LibraryClient.Core
 
         public Startup()
         {
+            var path = Path.Combine(AppContext.BaseDirectory, "LibraryClient", "appsettings.json");
             Configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile(path, optional: false, reloadOnChange: true)
                 .Build();
         }
 

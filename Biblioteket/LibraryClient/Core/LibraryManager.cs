@@ -1,6 +1,5 @@
 ﻿using Biblioteket.LibraryClient.Models;
 using Biblioteket.LibraryClient.Utilities;
-using Biblioteket.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Biblioteket.LibraryClient.Models;
 
@@ -30,11 +31,13 @@ public partial class LibraryDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        if (optionsBuilder.IsConfigured) return;
+        var path = Path.Combine(AppContext.BaseDirectory, "LibraryClient", "appsettings.json");
         var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile(path, optional: true, reloadOnChange: false)
             .Build();
-
-        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+        var conn = config.GetConnectionString("DefaultConnection");
+        if (!string.IsNullOrEmpty(conn)) optionsBuilder.UseSqlServer(conn);
     }
 
 
